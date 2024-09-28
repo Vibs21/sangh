@@ -1,3 +1,7 @@
 node_modules
 # Keep environment variables out of version control
 .env
+dist
+
+# Ignore TypeScript build cache
+tsconfig.tsbuildinfo
