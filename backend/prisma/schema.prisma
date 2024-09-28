@@ -15,9 +15,8 @@ datasource db {
 
 model User {
   id Int   @id @default(autoincrement())
-  societyId Int 
-  society Society @relation(fields: [societyId], references: [id])
   email String @unique
+  societyId Int 
   phoneNumber Int?
   firstName String
   lastName String?
@@ -26,12 +25,22 @@ model User {
   status String @default("active")
   createdAt DateTime @default(now())
   isVerified Boolean @default(false)
+
+  society Society @relation(fields: [societyId], references: [id], onDelete: SetNull)
 }
 
 model Society {
   id Int @id @default(autoincrement())
   name String
-  status String
+  status String @default("active")
   createdAt DateTime @default(now())
+  address String
+
   users User[] // Define the one-to-many side of the relationship
+}
+
+model Userrole {
+  id Int @id 
+  role String
+  type String?
 }
