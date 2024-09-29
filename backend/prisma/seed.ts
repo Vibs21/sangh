@@ -36,7 +36,12 @@ async function rootSociety() {
 }
 
 async function rootUser() {
-  const rootPass = process.env.ROOT_USER_PWD || "rootuserpass";
+  const rootPass = process.env.ROOT_USER_PWD;
+
+  if(!rootPass) {
+    throw new Error('ROOT_USER_PWD is not set in .env file');
+  }
+  
   const hashedPassword = await bcrypt.hash(rootPass, 10);
 
   await prisma.user.upsert({
