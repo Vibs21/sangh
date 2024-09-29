@@ -12,6 +12,9 @@ jest.mock('@prisma/client', ()=> {
     const mPrismaClient = {
         user: {
             findFirst: jest.fn()
+        },
+        society: {
+            create: jest.fn(),
         }
     }
     return {PrismaClient: jest.fn(()=> mPrismaClient)}
@@ -82,6 +85,38 @@ describe('POST /api/singin', ()=> {
                                         
         expect(response.status).toBe(401);
         expect(response.body).toEqual({message: 'Invalid JWT secret'})
+    })
+})
+
+describe('/api/society onboarding', ()=> {
+    const prisma = new PrismaClient();
+    const mockSociety = {id: 1, 'name' : 'test society', address: 'test address' }
+    const token = 'fake_token';
+
+    beforeEach(()=> {
+        jest.clearAllMocks();
+
+    })
+
+    it('should able to create a record', async()=> {
+        (prisma.society.create as jest.Mock).mockResolvedValue(mockSociety); //step 1: Create a dummy data, dummy DB data
+
+        //step 2: stimulate the actual api, with actual data with the help of supertest lib request method
+        const response = await request(app)
+                                    .post('/api/societyOnBoarding')
+                                    .send({'name':'test society', address: 'test address'});
+
+        //NOTE: using the expect method of the jest check evaluate the all the scnerios and validate the data
+        expect(response.status).toBe(200);
+        // expect(response.body).toEqual({ 'message' : 'Society has been created successfully' });
+        expect(response.body.data).toEqual(
+            expect.objectContaining({
+              id: 1,
+              name: 'test society',
+              address: 'test address',
+            })
+          );
+        expect(prisma.society.create).toHaveBeenCalledWith({data: {'name': 'test society', address: 'test address'}})
     })
 })
 
