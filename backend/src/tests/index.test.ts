@@ -49,6 +49,8 @@ describe('POST /api/singin', ()=> {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
                 { message: "User authenticated successfully", token: 'fake_jwt_token', userId: 1 });
+        //NOTE: In toHaveBeenCalledWith, we need to pass the actual parameter which we are passing to the actual method 
+        // of index.ts
         expect(prisma.user.findFirst).toHaveBeenCalledWith({
             where: {email: 'test@example.com'}
         })

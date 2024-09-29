@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon --exec \"npx tsc -b && node dist/index.js\"",
     "seed": "ts-node prisma/seed.ts",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
