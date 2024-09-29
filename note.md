@@ -35,3 +35,4 @@ https://console.neon.tech/app/projects/long-unit-39178442/branches/br-royal-feat
 
  - npm install --save-dev jest supertest ts-jest @types/jest @types/supertest typescript                                                                                                                                                
 - ts-node skips the compilSation step to .js and directly runs the TypeScript files in memory without generating output .js files:
+- 

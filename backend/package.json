@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec \"npx tsc -b && node dist/index.js\"",
+    "start": "nodemon --exec \"ts-node src/server.ts\"",
     "seed": "ts-node prisma/seed.ts",
     "test": "jest",
     "build": "tsc -b"

@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const prisma = new PrismaClient();
-const port = process.env.PORT || 3002;
 const app = express();
 
 
@@ -57,6 +56,7 @@ app.post('/api/signup', async (req, res) => {
 
 app.post('/api/societyOnBoarding', async (req, res) => {
     const { name, address } = req.body;
+    const token = req.header("Authorization");
     try {
         const data = await prisma.society.create({
             data: {
@@ -64,9 +64,9 @@ app.post('/api/societyOnBoarding', async (req, res) => {
                 address
             }
         })
-        res.json({ "data:": data })
+        res.json({ data })
     } catch (e) {
-        res.status(401).send({ 'message': e })
+        res.status(401).send({ 'message': 'Error while onboarding society' })
     }
 })
 
