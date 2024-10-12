@@ -14,14 +14,14 @@ datasource db {
 }
 
 model User {
-  id Int   @id @default(autoincrement())
+  id String @id @default(uuid())
   email String @unique
   societyId Int 
-  phoneNumber Int?
+  phoneNumber Int @unique
   firstName String
   lastName String?
   password String
-  role     Int @default(3)
+  role     Int @default(5) //member
   status String @default("active")
   createdAt DateTime @default(now())
   isVerified Boolean @default(false)
