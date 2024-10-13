@@ -87,7 +87,7 @@ router.post('/signup', async (req, res, next) => {
     }
 })
 
-router.get('/getUserByCommunity/:communityId', auth, async (req, res, next) => {
+router.get('/getUsersByCommunity/:communityId', auth, async (req, res, next) => {
     const { communityId } = req.params;
     
     const users = await prisma.user.findMany({
