@@ -17,11 +17,12 @@ model User {
   id String @id @default(uuid())
   email String @unique
   societyId Int 
-  phoneNumber Int @unique
+  phoneNumber String @unique
   firstName String
   lastName String?
   password String
   role     Int @default(5) //member
+  userrole Userrole @relation(fields: [role], references: [id], onDelete: SetNull)
   status String @default("active")
   createdAt DateTime @default(now())
   isVerified Boolean @default(false)
@@ -43,4 +44,6 @@ model Userrole {
   id Int @id 
   role String
   type String?
+
+  users User[] //one user role can be associated with the multiple users
 }
