@@ -35,4 +35,9 @@ https://console.neon.tech/app/projects/long-unit-39178442/branches/br-royal-feat
 
  - npm install --save-dev jest supertest ts-jest @types/jest @types/supertest typescript                                                                                                                                                
 - ts-node skips the compilSation step to .js and directly runs the TypeScript files in memory without generating output .js files:
-- 
+- expect(LHS).toBe(RHS)
+- LHS is, the value set by us which we are expecting the function or the method will return when we call it, the Returned by the function is RHS, when they come as same, the test will pass
+  - if we take example from the methods where we are testing singin api, we have declared or created mock dummy data 
+    - with the mock data, hum ab ye pata h ki ky ana chaiye, fucntional call hone ke bd, we know the ans is 4, when we pass 2, 2, not the thing is what function is going to return in return it is 4 or it is some different value
+  - we will then call the function method, with some parameter to check
+  - check the mock data value with the return data value
