@@ -5,6 +5,8 @@ import { auth } from '../middleware/auth';
 const router = Router();
 const prisma = new PrismaClient();
 
+router.use(auth);
+
 router.post('/community/onBoarding', auth, async (req, res) => {
     const { name, address } = req.body;
     
@@ -19,6 +21,14 @@ router.post('/community/onBoarding', auth, async (req, res) => {
     } catch (e) {
         res.status(401).send({ 'message': 'Error while onboarding society' })
     }
+})
+
+router.get('/getAllCommunity', auth, async (req, res) => {
+
+    const communities = await prisma.society.findMany();
+
+    res.send({communities})
+
 })
 
 export default router;

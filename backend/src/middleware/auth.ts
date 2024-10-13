@@ -31,5 +31,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
 
     req.user = { id: validToken.userId }; 
 
+    console.log('logged in user is: ', validToken.userId)
+
     next();
 }
