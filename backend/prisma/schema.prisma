@@ -28,6 +28,10 @@ model User {
   isVerified Boolean @default(false)
 
   society Society @relation(fields: [societyId], references: [id], onDelete: SetNull)
+  
+  creatorUser      Task[] @relation("CreatorUser")   // Tasks created by this user
+  assignedUser Task[]  @relation("AssignedUser")   // Tasks created by this user
+  comments   TaskComment[]
 }
 
 model Society {
@@ -37,7 +41,8 @@ model Society {
   createdAt DateTime @default(now())
   address String
 
-  users User[] // Define the one-to-many side of the relationship
+  users User[]  // Define the one-to-many side of the relationship
+  tasks     Task[]  // Tasks related to the society
 }
 
 model Userrole {
@@ -46,4 +51,50 @@ model Userrole {
   type String?
 
   users User[] //one user role can be associated with the multiple users
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  assignedTo  String?      // Nullable, task can be unassigned
+  assignedUser User?    @relation("AssignedUser",fields: [assignedTo], references: [id])
+  createdBy   String       // User who created the task
+  creatorUser     User      @relation("CreatorUser", fields: [createdBy], references: [id])
+  statusId    Int       @default(1) // Defaults to Open
+  status      TaskStatus @relation(fields: [statusId], references: [id])
+  priorityId  Int       @default(3) // Default priority to Low
+  priority    Priority  @relation(fields: [priorityId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  dueDate     DateTime?
+  societyId   Int       // Related to a society
+  society     Society   @relation(fields: [societyId], references: [id], onDelete: Cascade)
+
+  // Optional relation for task comments
+  comments    TaskComment[]
+}
+
+
+model TaskStatus {
+  id   Int     @id @default(autoincrement())
+  name String  // Status name like "Open", "Closed", etc.
+  tasks Task[] // Relation to tasks
+}
+
+model Priority {
+  id     Int    @id @default(autoincrement())
+  name   String // Priority name like "High", "Medium", "Low"
+  level  Int    // For ordering, e.g., High = 1, Medium = 2, Low = 3
+  tasks  Task[] // Relation to tasks
+}
+
+model TaskComment {
+  id        Int      @id @default(autoincrement())
+  content   String   // Comment content
+  createdAt DateTime @default(now())
+  taskId    Int      // Foreign key to task
+  task      Task     @relation(fields: [taskId], references: [id])
+  createdBy String      // User who created the comment
+  author    User     @relation(fields: [createdBy], references: [id])
 }
