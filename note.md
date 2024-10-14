@@ -24,9 +24,9 @@ Required things to start with this repo
 
 #####################################
 
-- create scheme of prisma
+- create schema for prisma
 - run cmd to create migration folder
-- run cmd to generate the client, which expose the clases to be used in TS files/fucntions
+- run cmd to generate the client, which expose the classes to be used in TS files/functions
 
 
 https://console.neon.tech/app/projects/long-unit-39178442/branches/br-royal-feather-a5mzbdxc/tables
