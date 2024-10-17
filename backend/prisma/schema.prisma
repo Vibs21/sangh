@@ -32,6 +32,8 @@ model User {
   creatorUser      Task[] @relation("CreatorUser")   // Tasks created by this user
   assignedUser Task[]  @relation("AssignedUser")   // Tasks created by this user
   comments   TaskComment[]
+  polls Poll[]
+  poleVotes PoleVote[]
 }
 
 model Society {
@@ -75,7 +77,6 @@ model Task {
   comments    TaskComment[]
 }
 
-
 model TaskStatus {
   id   Int     @id @default(autoincrement())
   name String  // Status name like "Open", "Closed", etc.
@@ -98,3 +99,37 @@ model TaskComment {
   createdBy String      // User who created the comment
   author    User     @relation(fields: [createdBy], references: [id])
 }
+
+model Poll {
+  id          Int       @id @default(autoincrement())
+  question String?
+  status String? @default("Open")
+  createdAt DateTime @default(now())
+  createdBy String
+  creatorUser User @relation(fields: [createdBy], references: [id])
+
+  poleOptions PoleOption[]
+  poleVotes PoleVote[]
+}
+
+model PoleOption {
+  id Int @id @default(autoincrement())
+  pollId Int
+  pollOption String
+  poll Poll @relation(fields: [pollId], references: [id])
+  poleVotes PoleVote[]
+}
+
+model PoleVote {
+  id Int @id @default(autoincrement())
+  pollId Int
+  poleOptionId Int
+  userId String
+  createdAt DateTime @default(now())
+
+  poll Poll @relation(fields: [pollId], references: [id])
+  poleOption PoleOption @relation(fields: [poleOptionId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+
