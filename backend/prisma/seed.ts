@@ -65,9 +65,11 @@ async function taskStatus() {
     {id: 1, name: 'Open'},
     {id: 2, name: 'WIP'},
     {id: 3, name: 'Done'},
-    {id: 4, name: 'Close'},
+    {id: 4, name: 'Closed'},
     {id: 5, name: 'Rejected'},
     {id: 6, name: 'Backlog'},
+    {id: 7, name: 'Blocked'},
+    {id: 8, name: 'Deleted'},
   ]
 
   taskStatus.forEach(async (status)=> {
