@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { error } from 'console';
 import { auth } from '../middleware/auth';
 
 
@@ -35,7 +34,7 @@ router.post('/signin', async (req, res) => {
             if(!process.env.JWT_SECRET) {
                 return res.status(401).json({ message: "Invalid JWT secret" });
             } else {
-                const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET, { expiresIn: '800h' })
+                const token = jwt.sign({userId: user.id, communityId: user.societyId}, process.env.JWT_SECRET, { expiresIn: '800h' })
                 return res.json({ message: "User authenticated successfully", token, userId: user.id });
             }
         } else {
