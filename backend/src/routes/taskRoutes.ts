@@ -6,16 +6,9 @@ import { User } from '../middleware/auth';
 const router = Router();
 const prisma = new PrismaClient();
 
-
-// create task
-// update task
-// asign task
-// update priority
-// update task status
-// delete task //change status to deleted
-// comment on the task
-
 router.use(auth);
+
+
 
 router.post('/create', async (req, res)=> {
     const { title, description } = req.body;
@@ -24,6 +17,8 @@ router.post('/create', async (req, res)=> {
 
     res.status(200).send({message: 'task created successfully!', title, description, id, communityId})
 })
+
+
 
 router.put('/update', async (req, res) => {
     const { title, description, taskId } = req.body;

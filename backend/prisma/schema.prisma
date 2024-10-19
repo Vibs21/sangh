@@ -59,7 +59,7 @@ model Task {
   id          Int       @id @default(autoincrement())
   title       String
   description String?
-  assignedTo  String?      // Nullable, task can be unassigned
+  assignedTo  String?   @default("Unassigned")     // Nullable, task can be unassigned
   assignedUser User?    @relation("AssignedUser",fields: [assignedTo], references: [id])
   createdBy   String       // User who created the task
   creatorUser     User      @relation("CreatorUser", fields: [createdBy], references: [id])
