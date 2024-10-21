@@ -28,18 +28,23 @@ export function auth(req: Request, res: Response, next: NextFunction) {
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
+    
+    try {
+        const validToken = jwt.verify(token, JWT_SECRET as string) as ({userId : string, communityId: string});
+  
+        //'as string' is called as Type Assertion
+    
+        //NOTE: Type Assertion: Using as string tells TypeScript, "Hey, I know this value will definitely be a string, so treat it as one."
+    
+        req.user = { id: validToken.userId, communityId: validToken.communityId }; 
+    
+        //TODO: Find user by id in the DB to check if it's present or not
+    
+        console.log('logged in user is: ', validToken.userId)
+        next();
+    } catch(e) {
+        res.status(403).send({message: 'Unauthorized request'});
+    }
+    
 
-    const validToken = jwt.verify(token, JWT_SECRET as string) as ({userId : string, communityId: string});
-    console.log('vai', validToken)
-    //'as string' is called as Type Assertion
-
-    //NOTE: Type Assertion: Using as string tells TypeScript, "Hey, I know this value will definitely be a string, so treat it as one."
-
-    req.user = { id: validToken.userId, communityId: validToken.communityId }; 
-
-    //TODO: Find user by id in the DB to check if it's present or not
-
-    console.log('logged in user is: ', validToken.userId)
-
-    next();
 }
